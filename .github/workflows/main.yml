@@ -1,0 +1,51 @@
+name: Yapay ZekayÄ± EÄŸit
+
+on:
+  push:
+    branches:
+      - main # EÄŸer ana dalÄ±nÄ±n adÄ± 'master' ise burayÄ± 'master' yap.
+  schedule:
+    # 10 dakikada bir Ã§alÄ±ÅŸÄ±r. GitHub Actions'Ä±n izin verdiÄŸi minimum aralÄ±k
+    # 5 dakikadÄ±r, 10 dakika bunun gÃ¼venle Ã¼zerinde. YoÄŸun saatlerde
+    # (Ã¶zellikle saat baÅŸlarÄ±nda) birkaÃ§ dakika gecikme olmasÄ± normaldir.
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  egitim:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Depoyu Klonla
+        uses: actions/checkout@v4
+
+      - name: Python Kur
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Gerekli KÃ¼tÃ¼phaneleri Kur
+        # Not: ArtÄ±k HTML kazÄ±mak yerine resmi MediaWiki API'sini kullandÄ±ÄŸÄ±mÄ±z
+        # iÃ§in beautifulsoup4'e ihtiyaÃ§ kalmadÄ±, sadece requests yeterli.
+        run: pip install requests
+
+      - name: Yapay Zeka Kodunu Ã‡alÄ±ÅŸtÄ±r
+        env:
+          # Wikipedia'nÄ±n bot politikasÄ± gereÄŸi User-Agent'a kendi repo linkini
+          # yaz - banlanma riskini daha da azaltÄ±r.
+          BOT_USER_AGENT: "OtonomNLPBotu/1.0 (+https://github.com/emirattaa/SelftrainAi)"
+          # Ä°stek baÅŸÄ±na kaÃ§ rastgele madde Ã§ekilecek (API Ã¼st sÄ±nÄ±rÄ±: 20)
+          MAKALE_SAYISI: "20"
+          # Ã‡alÄ±ÅŸma baÅŸÄ±na toplam istek sayÄ±sÄ± (Vikipedi + Vikikaynak dÃ¶nÃ¼ÅŸÃ¼mlÃ¼)
+          ISTEK_TEKRAR_SAYISI: "6"
+        run: python main.py
+
+      - name: Ã–ÄŸrenilenleri ve README'yi GitHub'a Kaydet
+        run: |
+          git config --global user.name "YapayZekaBot"
+          git config --global user.email "bot@example.com"
+          git add .
+          git commit -m "ğŸ§  Yapay Zeka eÄŸitim oturumunu tamamladÄ± ve bilgileri gÃ¼ncelledi" || echo "DeÄŸiÅŸiklik yok."
+          git push
