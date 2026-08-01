@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyin — Otonom Vikipedi Öğrencisi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #090b0d;
+    --bg-panel: #10141a;
+    --bg-panel-2: #151a21;
+    --line: #232a33;
+    --mint: #7CF5C4;
+    --mint-dim: #3f7864;
+    --amber: #F5B942;
+    --violet: #A695FF;
+    --text: #E8ECEE;
+    --muted: #8B97A3;
+    --danger: #F5716B;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(124,245,196,0.07), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(166,149,255,0.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .display{font-family:'Fraunces', serif;}
+
+  header{
+    padding:28px 20px 18px;
+    max-width:1100px;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .brand-eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--mint);
+    opacity:.85;
+    margin-bottom:6px;
+  }
+  h1.display{
+    font-size:clamp(28px, 5vw, 42px);
+    font-weight:600;
+    margin:0;
+    line-height:1.05;
+  }
+  h1.display em{
+    font-style:italic;
+    color:var(--mint);
+  }
+  .tagline{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:8px;
+    max-width:520px;
+  }
+  .status-pill{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--muted);
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 14px;
+    white-space:nowrap;
+  }
+  .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--mint);
+    box-shadow:0 0 8px 1px var(--mint);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;} 50%{opacity:.35;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .dot{animation:none;}
+  }
+
+  main{
+    max-width:1100px;
+    margin:0 auto;
+    padding:26px 20px 60px;
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:22px;
+  }
+  @media (max-width:860px){
+    main{grid-template-columns:1fr;}
+  }
+
+  .panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+  }
+
+  /* honesty banner */
+  .notice{
+    grid-column:1/-1;
+    background:linear-gradient(180deg, rgba(166,149,255,.08), transparent);
+    border:1px solid rgba(166,149,255,.28);
+    border-radius:12px;
+    padding:14px 18px;
+    font-size:13px;
+    line-height:1.55;
+    color:#cfc9f2;
+  }
+  .notice b{color:var(--violet);}
+
+  /* chat */
+  .chat-head{
+    padding:16px 18px 12px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .mode-toggle{
+    display:flex;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:3px;
+    gap:2px;
+  }
+  .mode-toggle button{
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    padding:6px 10px;
+    border-radius:7px;
+    cursor:pointer;
+  }
+  .mode-toggle button.active{
+    background:var(--mint);
+    color:#0a1512;
+    font-weight:600;
+  }
+  .chat-log{
+    height:440px;
+    overflow-y:auto;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .msg{max-width:88%;}
+  .msg.user{align-self:flex-end;}
+  .msg.bot{align-self:flex-start;}
+  .bubble{
+    padding:11px 14px;
+    border-radius:12px;
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  .msg.user .bubble{
+    background:var(--mint);
+    color:#0a1512;
+    border-bottom-right-radius:4px;
+  }
+  .msg.bot .bubble{
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    border-bottom-left-radius:4px;
+  }
+  .tag{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:.05em;
+    padding:2px 7px;
+    border-radius:5px;
+    margin-bottom:6px;
+  }
+  .tag.kaynakli{background:rgba(124,245,196,.15); color:var(--mint); border:1px solid rgba(124,245,196,.35);}
+  .tag.tahmin{background:rgba(245,185,66,.14); color:var(--amber); border:1px solid rgba(245,185,66,.35);}
+  .src{
+    margin-top:6px;
+    font-size:11.5px;
+    color:var(--muted);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .chat-input{
+    display:flex;
+    gap:8px;
+    padding:14px 16px;
+    border-top:1px solid var(--line);
+  }
+  .chat-input input{
+    flex:1;
+    background:var(--bg-panel-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:11px 13px;
+    border-radius:9px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+  }
+  .chat-input input:focus{outline:1px solid var(--mint);}
+  .chat-input button{
+    background:var(--mint);
+    color:#0a1512;
+    border:none;
+    font-weight:600;
+    padding:0 18px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:13.5px;
+  }
+  .chat-input button:disabled{opacity:.5;cursor:default;}
+
+  /* stats panel */
+  .stats-head{
+    padding:16px 18px;
+    border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  canvas#synapses{
+    display:block;
+    width:100%;
+    height:150px;
+    border-bottom:1px solid var(--line);
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line);
+  }
+  .stat-cell{
+    background:var(--bg-panel);
+    padding:14px 16px;
+  }
+  .stat-cell .n{
+    font-family:'JetBrains Mono',monospace;
+    font-size:19px;
+    font-weight:500;
+    color:var(--mint);
+  }
+  .stat-cell .l{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+  }
+  .countdown-box{
+    padding:14px 18px;
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+    color:var(--muted);
+  }
+  .countdown-box .t{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--amber);
+    font-size:15px;
+    margin-top:4px;
+  }
+  .src-links{
+    padding:14px 18px;
+    border-top:1px solid var(--line);
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.7;
+  }
+  .src-links a{color:var(--violet); text-decoration:none;}
+  .src-links a:hover{text-decoration:underline;}
+
+  .loadbar-wrap{
+    padding:0 18px 14px;
+    display:none;
+  }
+  .loadbar-wrap.show{display:block;}
+  .loadbar-track{
+    height:5px;
+    background:var(--bg-panel-2);
+    border-radius:99px;
+    overflow:hidden;
+    margin-top:6px;
+  }
+  .loadbar-fill{
+    height:100%;
+    width:0%;
+    background:var(--mint);
+    transition:width .2s ease;
+  }
+  .loadbar-label{font-size:11.5px; color:var(--muted); font-family:'JetBrains Mono',monospace;}
+
+  footer{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 20px 40px;
+    color:var(--muted);
+    font-size:11.5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="brand-eyebrow">nöral günlük · vikipedi + vikikaynak</div>
+    <h1 class="display">Bey<em>i</em>n</h1>
+    <div class="tagline">Kendini her 10 dakikada bir Vikipedi ve Vikikaynak'tan okuduklarıyla güncelleyen otonom bir n-gram / bilgi-bankası sistemi.</div>
+  </div>
+  <div class="status-pill">
+    <span class="dot"></span>
+    <span id="status-text">bağlanıyor…</span>
+  </div>
+</header>
+
+<main>
+
+  <div class="notice">
+    <b>Bu ne, bu ne değil:</b> Bu, gerçek cümleleri anahtar kelimeyle bulup kaynağıyla döndüren bir bilgi bankası ile 1–15 kelimelik n-gram istatistiklerine dayalı bir metin üretecidir. Bir sinir ağı / LLM değildir — GitHub Actions'ta ücretsiz, sürekli çalışan bir eğitim ortamı bulunmadığı için bu, "gerçek zamanlı otonom öğrenme"nin bu ortamda dürüstçe yapılabilecek hâlidir. Her cevabın altında <span class="tag kaynakli">kaynaklı</span> (gerçekten okunmuş bir cümle) veya <span class="tag tahmin">tahmin</span> (istatistiksel üretim) etiketi görürsün.
+  </div>
+
+  <div class="panel" id="chat-panel">
+    <div class="chat-head">
+      <strong style="font-size:13.5px;">Beyinle konuş</strong>
+      <div class="mode-toggle">
+        <button id="mode-qa" class="active">Bilgi Sor</button>
+        <button id="mode-free">Serbest Konuş</button>
+      </div>
+    </div>
+    <div class="loadbar-wrap" id="loadbar-wrap">
+      <div class="loadbar-label" id="loadbar-label">n-gram tabloları yükleniyor…</div>
+      <div class="loadbar-track"><div class="loadbar-fill" id="loadbar-fill"></div></div>
+    </div>
+    <div class="chat-log mono" id="chat-log"></div>
+    <div class="chat-input">
+      <input id="chat-input" type="text" placeholder="ör: Atatürk nedir?" autocomplete="off">
+      <button id="chat-send">Sor</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="stats-head">canlı model durumu</div>
+    <canvas id="synapses"></canvas>
+    <div class="stat-grid" id="stat-grid">
+      <div class="stat-cell"><div class="n" id="s-makale">—</div><div class="l">toplam makale</div></div>
+      <div class="stat-cell"><div class="n" id="s-kitap">—</div><div class="l">toplam kitap</div></div>
+      <div class="stat-cell"><div class="n" id="s-dugum">—</div><div class="l">düğüm (node)</div></div>
+      <div class="stat-cell"><div class="n" id="s-baglanti">—</div><div class="l">sinaps (bağlantı)</div></div>
+      <div class="stat-cell"><div class="n" id="s-cumle">—</div><div class="l">indekslenen cümle</div></div>
+      <div class="stat-cell"><div class="n" id="s-kelime">—</div><div class="l">bilgi bankası kelimesi</div></div>
+    </div>
+    <div class="countdown-box">
+      son eğitim: <span id="son-egitim" class="mono">—</span>
+      <div>sıradaki çalışma tahmini</div>
+      <div class="t" id="countdown">—</div>
+    </div>
+    <div class="src-links">
+      kaynaklar: <a href="https://tr.wikipedia.org" target="_blank">tr.wikipedia.org</a> · <a href="https://tr.wikisource.org" target="_blank">tr.wikisource.org</a><br>
+      motor: <a href="https://github.com/emirattaa/SelftrainAi" target="_blank">github.com/emirattaa/SelftrainAi</a> (her 10 dk'da bir GitHub Actions ile eğitiliyor)
+    </div>
+  </div>
+
+</main>
+
+<footer>Veriler bu sayfayla aynı depodaki <code>byn/</code> klasöründen doğrudan okunur; sayfa her açıldığında en güncel eğitim verisini çeker. GitHub Pages üzerinden servis edilmelidir (dosya:// üzerinden açılırsa tarayıcı JSON çekimini engeller).</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ============================================================
+  // SABİTLER (main.py ile birebir aynı olacak şekilde)
+  // ============================================================
+  const DURAK_KELIMELER = new Set([
+    "bir","bu","şu","o","ve","veya","ile","için","gibi","de","da",
+    "ki","mi","mı","mu","mü","ne","nedir","nasıl","neden","niçin",
+    "kaç","hangi","midir","mıdır","mudur","müdür","çok","daha","en",
+    "ama","fakat","ancak","her","hiç","tüm","bütün","ise","diye",
+    "olan","olarak","olduğu","oldu","olmuş","var","yok","değil",
+    "kadar","sonra","önce","üzere","göre","diğer","başka","aynı",
+    "kendi","biri","birçok","birkaç","şey","yer","zaman","kez",
+    "onun","onu","ona","bunun","bunu","buna","şunun","şunu"
+  ]);
+
+  const STATE = {
+    meta: null,
+    baglamUzunlugu: 15,
+    bilgiBankasi: null,
+    cumleler: null,
+    nodes: {},       // n -> {baglam: {kelime: agirlik}}
+    gramLoaded: false,
+    mode: "qa"
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  // ============================================================
+  // TÜRKÇE METİN İŞLEME (main.py'deki fonksiyonların JS karşılığı)
+  // ============================================================
+  function turkceKucult(metin){
+    return metin.replace(/İ/g,'i').replace(/I/g,'ı').toLowerCase();
+  }
+  function turkceIlkHarfiBuyut(metin){
+    if(!metin) return metin;
+    const harita = {'i':'İ','ı':'I'};
+    const ilk = harita[metin[0]] || metin[0].toUpperCase();
+    return ilk + metin.slice(1);
+  }
+  function kelimelereAyir(metin){
+    metin = turkceKucult(metin);
+    metin = metin.replace(/([.,!?;])/g, ' $1 ');
+    const bulunanlar = metin.match(/[a-zçğıöşü0-9]+|[.,!?;]/g);
+    return bulunanlar || [];
+  }
+
+  // ============================================================
+  // VERİ YÜKLEME (parçalı JSON şardlarını main.py'nin yazdığı gibi okur)
+  // ============================================================
+  async function fetchJSON(path){
+    const bust = (path.includes('?') ? '&' : '?') + 'v=' + Date.now();
+    const res = await fetch(path + bust, {cache:'no-store'});
+    if(!res.ok) throw new Error(path + ' -> ' + res.status);
+    return res.json();
+  }
+
+  async function loadShardsMerged(basePrefix, count){
+    const merged = {};
+    for(let i=0;i<count;i++){
+      try{
+        const parca = await fetchJSON(`byn/${basePrefix}_${i}.json`);
+        Object.assign(merged, parca);
+      }catch(e){
+        console.warn('şard okunamadı:', basePrefix, i, e.message);
+      }
+    }
+    return merged;
+  }
+
+  async function init(){
+    try{
+      STATE.meta = await fetchJSON('byn/beyin_meta.json');
+    }catch(e){
+      $('status-text').textContent = 'meta yüklenemedi';
+      appendBot(`<span class="tag tahmin">hata</span><div>byn/beyin_meta.json okunamadı. Bu sayfayı bir dosya:// olarak değil, GitHub Pages üzerinden (veya yerel bir http sunucusuyla) açtığından emin ol.</div>`);
+      return;
+    }
+    STATE.baglamUzunlugu = STATE.meta.baglam_uzunlugu || 15;
+
+    renderStats();
+    startCountdown();
+    $('status-text').textContent = 'bilgi bankası yükleniyor…';
+
+    const parca = STATE.meta.parca_sayilari || {};
+    try{
+      const [bilgi, cumleler] = await Promise.all([
+        loadShardsMerged('beyin_bilgi', parca.bilgi || 0),
+        loadShardsMerged('beyin_cumleler', parca.cumleler || 0)
+      ]);
+      STATE.bilgiBankasi = bilgi;
+      STATE.cumleler = cumleler;
+      $('s-kelime').textContent = Object.keys(bilgi).length.toLocaleString('tr-TR');
+      $('s-cumle').textContent = Object.keys(cumleler).length.toLocaleString('tr-TR');
+      $('status-text').textContent = 'hazır';
+      appendBot(`<div>Merhaba. Şu ana kadar <b>${(STATE.meta.metadata.islenen_toplam_makale||0)}</b> makale ve <b>${(STATE.meta.metadata.islenen_toplam_kitap||0)}</b> kitap okudum. Bana okuduğum konularla ilgili bir şey sorabilirsin — kaynaklı bir cevabım varsa onu döndürürüm.</div>`);
+    }catch(e){
+      $('status-text').textContent = 'kısmi veri';
+      appendBot(`<span class="tag tahmin">uyarı</span><div>Bilgi bankası tam yüklenemedi: ${e.message}</div>`);
+    }
+
+    drawSynapses();
+  }
+
+  function renderStats(){
+    const md = STATE.meta.metadata || {};
+    const st = STATE.meta.istatistikler || {};
+    $('s-makale').textContent = (md.islenen_toplam_makale||0).toLocaleString('tr-TR');
+    $('s-kitap').textContent = (md.islenen_toplam_kitap||0).toLocaleString('tr-TR');
+    $('s-dugum').textContent = (st.toplam_dugum_sayisi||0).toLocaleString('tr-TR');
+    $('s-baglanti').textContent = (st.toplam_baglanti_sayisi||0).toLocaleString('tr-TR');
+    $('son-egitim').textContent = md.son_guncelleme ? md.son_guncelleme.slice(0,19).replace('T',' ') + ' UTC' : '—';
+  }
+
+  function startCountdown(){
+    const md = STATE.meta.metadata || {};
+    if(!md.son_guncelleme) return;
+    const son = new Date(md.son_guncelleme.replace(' ','T') + 'Z');
+    const sonraki = new Date(son.getTime() + 10*60*1000);
+    function tick(){
+      const fark = sonraki.getTime() - Date.now();
+      if(fark <= 0){
+        $('countdown').textContent = 'çalışma bekleniyor (gecikmiş olabilir)';
+        return;
+      }
+      const dk = Math.floor(fark/60000);
+      const sn = Math.floor((fark%60000)/1000);
+      $('countdown').textContent = `${dk}dk ${sn}sn sonra`;
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  // ============================================================
+  // SORU-CEVAP (RETRIEVAL) — soruyu_cevapla / soru_cevap_dene karşılığı
+  // ============================================================
+  function soruyuCevapla(soru, enFazlaCevap){
+    enFazlaCevap = enFazlaCevap || 2;
+    const bilgiBankasi = STATE.bilgiBankasi, cumleler = STATE.cumleler;
+    if(!bilgiBankasi || !cumleler) return [];
+
+    const soruKelimeleri = kelimelereAyir(soru);
+    const gorulen = new Set();
+    const anahtarKelimeler = [];
+    for(const k of soruKelimeleri){
+      if(DURAK_KELIMELER.has(k) || k.length < 3 || [',','.','!','?',';'].includes(k)) continue;
+      if(!gorulen.has(k)){ gorulen.add(k); anahtarKelimeler.push(k); }
+    }
+    if(anahtarKelimeler.length === 0) return [];
+
+    const puanlar = {};
+    for(const kelime of anahtarKelimeler){
+      const eslesenler = bilgiBankasi[kelime];
+      if(!eslesenler) continue;
+      const idf = 1.0 / (1.0 + Object.keys(eslesenler).length);
+      for(const cumleId in eslesenler){
+        const frekans = eslesenler[cumleId];
+        puanlar[cumleId] = (puanlar[cumleId] || 0) + frekans * idf;
+      }
+    }
+    const siralanmis = Object.entries(puanlar).sort((a,b)=>b[1]-a[1]).slice(0, enFazlaCevap);
+    const sonuclar = [];
+    for(const [cumleId, puan] of siralanmis){
+      const kayit = cumleler[cumleId];
+      if(kayit) sonuclar.push({metin:kayit.metin, kaynak:kayit.kaynak, puan: Math.round(puan*1000)/1000});
+    }
+    return sonuclar;
+  }
+
+  // ============================================================
+  // N-GRAM ÜRETİM (yapay_zeka_konus / _durumdan_uret karşılığı)
+  // ============================================================
+  function agirlikliSec(map){
+    const toplam = Object.values(map).reduce((a,b)=>a+b,0);
+    if(toplam <= 0) return null;
+    let r = Math.random()*toplam, kumulatif = 0;
+    for(const kelime in map){
+      kumulatif += map[kelime];
+      if(r <= kumulatif) return kelime;
+    }
+    return null;
+  }
+
+  function sonrakiKelimeyiBul(sonuc){
+    for(let n = Math.min(STATE.baglamUzunlugu, sonuc.length); n >= 1; n--){
+      const baglam = sonuc.slice(-n).join(' ');
+      const tablo = STATE.nodes[n] || {};
+      if(tablo[baglam] && Object.keys(tablo[baglam]).length){
+        const secim = agirlikliSec(tablo[baglam]);
+        if(secim !== null) return secim;
+      }
+    }
+    return null;
+  }
+
+  function durumdanUret(baslangicKelimeleri, maxKelime){
+    let sonuc = baslangicKelimeleri.slice();
+    for(let i=0;i<maxKelime;i++){
+      const sonraki = sonrakiKelimeyiBul(sonuc);
+      if(sonraki === null || sonraki === '[BITIS]') break;
+      sonuc.push(sonraki);
+    }
+    const temiz = sonuc.filter(k => k !== '[BASLANGIC]' && k !== '[BITIS]');
+    let cikti = temiz.join(' ');
+    cikti = cikti.replace(/ ([.,!?;])/g, '$1');
+    cikti = turkceIlkHarfiBuyut(cikti);
+    if(cikti && !['.','!','?'].includes(cikti.slice(-1))) cikti += '...';
+    return cikti;
+  }
+
+  function yapayZekaKonus(maxKelime){
+    maxKelime = maxKelime || 30;
+    const enUzunTablo = STATE.nodes[STATE.baglamUzunlugu] || {};
+    let tablo = enUzunTablo, dereceBulundu = STATE.baglamUzunlugu;
+    if(Object.keys(tablo).length === 0){
+      for(let n = STATE.baglamUzunlugu; n >= 1; n--){
+        if(STATE.nodes[n] && Object.keys(STATE.nodes[n]).length){ tablo = STATE.nodes[n]; dereceBulundu = n; break; }
+      }
+    }
+    const anahtarlar = Object.keys(tablo);
+    if(anahtarlar.length === 0) return "Yeterli veriye sahip değilim.";
+    const baslangicAdaylari = anahtarlar.filter(b => b.startsWith('[BASLANGIC]'));
+    const secilen = baslangicAdaylari.length ? baslangicAdaylari[Math.floor(Math.random()*baslangicAdaylari.length)] : anahtarlar[Math.floor(Math.random()*anahtarlar.length)];
+    return durumdanUret(secilen.split(' '), maxKelime);
+  }
+
+  function yapayZekaCevapla(girdiMetni, maxKelime){
+    maxKelime = maxKelime || 35;
+    if(Object.keys(STATE.nodes).length === 0) return "Yeterli veriye sahip değilim.";
+    const girdiKelimeleri = kelimelereAyir(girdiMetni);
+    if(!girdiKelimeleri.length) return yapayZekaKonus(maxKelime);
+    const baslangic = girdiKelimeleri.slice(-STATE.baglamUzunlugu);
+    return durumdanUret(baslangic, maxKelime);
+  }
+
+  // ============================================================
+  // N-GRAM VERİSİNİ TEMBEL (LAZY) YÜKLE — büyük olduğu için sadece
+  // "Serbest Konuş" moduna ilk geçişte indirilir.
+  // ============================================================
+  async function gramVerisiniYukle(){
+    if(STATE.gramLoaded) return;
+    const parca = STATE.meta.parca_sayilari || {};
+    const wrap = $('loadbar-wrap'), fill = $('loadbar-fill'), label = $('loadbar-label');
+    wrap.classList.add('show');
+    for(let n=1; n<=STATE.baglamUzunlugu; n++){
+      label.textContent = `n-gram tabloları yükleniyor… (${n}/${STATE.baglamUzunlugu})`;
+      fill.style.width = Math.round((n/STATE.baglamUzunlugu)*100) + '%';
+      const sayi = parca[`gram${n}`] || 0;
+      STATE.nodes[n] = await loadShardsMerged(`beyin_gram${n}`, sayi);
+    }
+    wrap.classList.remove('show');
+    STATE.gramLoaded = true;
+  }
+
+  // ============================================================
+  // SOHBET AKIŞI
+  // ============================================================
+  function appendUser(text){
+    const log = $('chat-log');
+    const div = document.createElement('div');
+    div.className = 'msg user';
+    div.innerHTML = `<div class="bubble"></div>`;
+    div.querySelector('.bubble').textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+  function appendBot(html){
+    const log = $('chat-log');
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    div.innerHTML = `<div class="bubble">${html}</div>`;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  async function soruCevapDene(soru){
+    const bulunanlar = soruyuCevapla(soru);
+    if(bulunanlar.length){
+      const enIyi = bulunanlar[0];
+      return {tip:'bilgi', cevap: enIyi.metin, kaynak: enIyi.kaynak};
+    }
+    if(!STATE.gramLoaded){
+      return {tip:'yok', cevap: null, kaynak: null};
+    }
+    const tahmin = yapayZekaCevapla(soru);
+    return {tip:'tahmin', cevap: tahmin, kaynak: null};
+  }
+
+  async function handleSend(){
+    const input = $('chat-input');
+    const metin = input.value.trim();
+    if(!metin) return;
+    input.value = '';
+    appendUser(metin);
+    $('chat-send').disabled = true;
+
+    if(STATE.mode === 'qa'){
+      const sonuc = await soruCevapDene(metin);
+      if(sonuc.tip === 'bilgi'){
+        appendBot(`<span class="tag kaynakli">kaynaklı</span><div>${escapeHtml(sonuc.cevap)}</div><div class="src">kaynak: ${escapeHtml(sonuc.kaynak||'bilinmiyor')}</div>`);
+      }else if(sonuc.tip === 'tahmin'){
+        appendBot(`<span class="tag tahmin">tahmin</span><div>${escapeHtml(sonuc.cevap)}</div>`);
+      }else{
+        appendBot(`<span class="tag tahmin">bulunamadı</span><div>Bu konuda okuduğum kaynaklı bir cümle yok. "Serbest Konuş" moduna geçip istatistiksel bir tahmin isteyebilirsin.</div>`);
+      }
+    }else{
+      if(!STATE.gramLoaded) await gramVerisiniYukle();
+      const cevap = yapayZekaCevapla(metin);
+      appendBot(`<span class="tag tahmin">tahmin</span><div>${escapeHtml(cevap)}</div>`);
+    }
+    $('chat-send').disabled = false;
+  }
+
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  $('chat-send').addEventListener('click', handleSend);
+  $('chat-input').addEventListener('keydown', (e) => { if(e.key === 'Enter') handleSend(); });
+
+  $('mode-qa').addEventListener('click', () => {
+    STATE.mode = 'qa';
+    $('mode-qa').classList.add('active');
+    $('mode-free').classList.remove('active');
+    $('chat-input').placeholder = 'ör: Atatürk nedir?';
+  });
+  $('mode-free').addEventListener('click', async () => {
+    STATE.mode = 'free';
+    $('mode-free').classList.add('active');
+    $('mode-qa').classList.remove('active');
+    $('chat-input').placeholder = 'bir kelime veya cümle parçası yaz…';
+    if(!STATE.gramLoaded){
+      appendBot(`<span class="tag tahmin">bilgi</span><div>Serbest üretim modu, n-gram tablolarını (büyük dosyalar) ilk kullanımda indirir. Az bekleyebilir.</div>`);
+      await gramVerisiniYukle();
+    }
+  });
+
+  // ============================================================
+  // SİNAPS GÖRSELİ (dekoratif, gerçek düğüm sayısına göre yoğunluk)
+  // ============================================================
+  function drawSynapses(){
+    const canvas = $('synapses');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = 150 * dpr;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    const W = rect.width, H = 150;
+
+    const dugumSayisi = (STATE.meta && STATE.meta.istatistikler && STATE.meta.istatistikler.toplam_dugum_sayisi) || 1000;
+    const yogunluk = Math.min(70, Math.max(18, Math.round(Math.log2(dugumSayisi+2)*4)));
+
+    const nodes = [];
+    for(let i=0;i<yogunluk;i++){
+      nodes.push({
+        x: Math.random()*W, y: Math.random()*H,
+        vx: (Math.random()-0.5)*0.15, vy: (Math.random()-0.5)*0.15,
+        r: 1 + Math.random()*1.6
+      });
+    }
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function frame(){
+      ctx.clearRect(0,0,W,H);
+      for(const n of nodes){
+        if(!reduceMotion){
+          n.x += n.vx; n.y += n.vy;
+          if(n.x<0||n.x>W) n.vx*=-1;
+          if(n.y<0||n.y>H) n.vy*=-1;
+        }
+      }
+      for(let i=0;i<nodes.length;i++){
+        for(let j=i+1;j<nodes.length;j++){
+          const a = nodes[i], b = nodes[j];
+          const d = Math.hypot(a.x-b.x, a.y-b.y);
+          if(d < 70){
+            ctx.strokeStyle = `rgba(124,245,196,${0.14*(1-d/70)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      for(const n of nodes){
+        ctx.fillStyle = 'rgba(124,245,196,0.85)';
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      if(!reduceMotion) requestAnimationFrame(frame);
+    }
+    frame();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
