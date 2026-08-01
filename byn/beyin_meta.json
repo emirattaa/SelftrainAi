@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "model_versiyon": "4.0-parcali-soru-cevap-15gram",
+    "ilk_olusturulma": "2026-08-01 09:55:35.158942",
+    "son_guncelleme": "2026-08-01 10:04:02.754438",
+    "islenen_toplam_makale": 82,
+    "islenen_toplam_kitap": 27
+  },
+  "istatistikler": {
+    "toplam_dugum_sayisi": 2315015,
+    "toplam_baglanti_sayisi": 2523797
+  },
+  "baglam_uzunlugu": 15,
+  "sonraki_cumle_id": 8282,
+  "parca_sayilari": {
+    "gram1": 1,
+    "gram2": 1,
+    "gram3": 1,
+    "gram4": 1,
+    "gram5": 1,
+    "gram6": 1,
+    "gram7": 1,
+    "gram8": 1,
+    "gram9": 1,
+    "gram10": 1,
+    "gram11": 1,
+    "gram12": 1,
+    "gram13": 1,
+    "gram14": 1,
+    "gram15": 1,
+    "bilgi": 1,
+    "cumleler": 1
+  }
+}
