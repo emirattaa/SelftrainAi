@@ -6,24 +6,24 @@ Bu depo, internetten makale çekerek kendi kendini eğiten otonom bir yapay zeka
 <!-- BİLGİ_BAŞLANGIÇ -->
 | Model Metriği | Değer |
 |:---|:---|
-| ⏱️ **Son Eğitim (Epoch)** | `02.08.2026 02:28:44` (TR) |
-| ⏳ **Tahmini Sonraki Çalışma** | `02.08.2026 02:58:44` (TR) |
-| 📚 **Bu Oturumda İncelenen Makale** | `77` |
+| ⏱️ **Son Eğitim (Epoch)** | `02.08.2026 03:29:01` (TR) |
+| ⏳ **Tahmini Sonraki Çalışma** | `02.08.2026 03:59:01` (TR) |
+| 📚 **Bu Oturumda İncelenen Makale** | `76` |
 | 📖 **Bu Oturumda Okunan Kitap (Tam Metin)** | `30` |
-| 📈 **Modelin Gördüğü Toplam Makale** | `1039` |
-| 📗 **Modelin Gördüğü Toplam Kitap** | `379` |
+| 📈 **Modelin Gördüğü Toplam Makale** | `1115` |
+| 📗 **Modelin Gördüğü Toplam Kitap** | `409` |
 | 🧩 **Bağlam Derecesi (n-gram)** | `1..15 (backoff)` |
-| 🔍 **Soru-Cevap İndeksindeki Kelime** | `111428` |
-| 🗂️ **İndekslenen Gerçek Cümle** | `65562` |
-| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `17539391` |
-| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `13643100` |
+| 🔍 **Soru-Cevap İndeksindeki Kelime** | `116234` |
+| 🗂️ **İndekslenen Gerçek Cümle** | `70256` |
+| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `19070790` |
+| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `15031551` |
 | ✅ **Öz-Test Sonucu** | `6/6` soru kaynaklı cevaplandı |
 
 ### 💬 Soru-Cevap Demosu (📚 Kaynaklı bilgi)
 *(Bu, modelin `beyin_meta.json` + parçalı veri dosyalarını kullanarak ürettiği gerçek bir örnektir.)*
 
-**Soru:** "Ala (mimarlık) nedir?"
+**Soru:** "Muammer Baykan nedir?"
 
-> "Behey ala gözlü dilber vaktin geçer demedim mi gözlerin olmus harami beller keser demedim mi bak su kaşa, bak şu göze ciğer kebab oldu öze yakasız gömlekler bize felek biçer demedim mi yüzün bedir kaşın kalem nasib olup bir dem görem kime razılıktır bu alem konan göçer demedim mi deryalarda gezer gemi sukkedir tutinin yemi sürelim devrani demi devran geçer demedim mi karac oglan, cömertle benim işim yok na mertle kahbe felek bin fendile gönlüm alır demedim mi"
-> *Kaynak: Vikikaynak: Behey Ala Gözlü Dilber*
+> "Muammer baykan, 1919, istanbul 22 kasım 2010, ankara, türk siyasetçi."
+> *Kaynak: Vikipedi: Muammer Baykan*
 <!-- BİLGİ_BİTİŞ -->
