@@ -6,24 +6,24 @@ Bu depo, internetten makale çekerek kendi kendini eğiten otonom bir yapay zeka
 <!-- BİLGİ_BAŞLANGIÇ -->
 | Model Metriği | Değer |
 |:---|:---|
-| ⏱️ **Son Eğitim (Epoch)** | `02.08.2026 21:27:23` (TR) |
-| ⏳ **Tahmini Sonraki Çalışma** | `02.08.2026 21:57:23` (TR) |
-| 📚 **Bu Oturumda İncelenen Makale** | `78` |
+| ⏱️ **Son Eğitim (Epoch)** | `02.08.2026 22:50:01` (TR) |
+| ⏳ **Tahmini Sonraki Çalışma** | `02.08.2026 23:20:01` (TR) |
+| 📚 **Bu Oturumda İncelenen Makale** | `82` |
 | 📖 **Bu Oturumda Okunan Kitap (Tam Metin)** | `30` |
-| 📈 **Modelin Gördüğü Toplam Makale** | `1914` |
-| 📗 **Modelin Gördüğü Toplam Kitap** | `705` |
+| 📈 **Modelin Gördüğü Toplam Makale** | `1996` |
+| 📗 **Modelin Gördüğü Toplam Kitap** | `735` |
 | 🧩 **Bağlam Derecesi (n-gram)** | `1..15 (backoff)` |
-| 🔍 **Soru-Cevap İndeksindeki Kelime** | `150494` |
-| 🗂️ **İndekslenen Gerçek Cümle** | `117092` |
-| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `29486519` |
-| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `24447698` |
-| ✅ **Öz-Test Sonucu** | `5/6` soru kaynaklı cevaplandı |
+| 🔍 **Soru-Cevap İndeksindeki Kelime** | `153136` |
+| 🗂️ **İndekslenen Gerçek Cümle** | `119922` |
+| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `30202510` |
+| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `25094634` |
+| ✅ **Öz-Test Sonucu** | `6/6` soru kaynaklı cevaplandı |
 
 ### 💬 Soru-Cevap Demosu (📚 Kaynaklı bilgi)
 *(Bu, modelin `beyin_meta.json` + parçalı veri dosyalarını kullanarak ürettiği gerçek bir örnektir.)*
 
-**Soru:** "Mario nedir?"
+**Soru:** "Kinsey ölçeği nedir?"
 
-> "Super mario serisi dışında mario kart yarış serisi, mario tennis ve mario golf spor serisi, paper mario, super mario rpg ile birlikte öğretici oyun serisi olan mario is missing!"
-> *Kaynak: Vikipedi: Mario*
+> "Kinsey ölçeği ya da diğer adıyla heteroseksüel homoseksüel derecelendirme ölçeği, bir kişinin cinsel yönelimini belirli bir deneyime veya bir uyarıcıya verdiği reaksiyona göre tanımlamak için kullanılan ölçek."
+> *Kaynak: Vikipedi: Kinsey ölçeği*
 <!-- BİLGİ_BİTİŞ -->
