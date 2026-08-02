@@ -6,24 +6,24 @@ Bu depo, internetten makale çekerek kendi kendini eğiten otonom bir yapay zeka
 <!-- BİLGİ_BAŞLANGIÇ -->
 | Model Metriği | Değer |
 |:---|:---|
-| ⏱️ **Son Eğitim (Epoch)** | `02.08.2026 10:01:06` (TR) |
-| ⏳ **Tahmini Sonraki Çalışma** | `02.08.2026 10:31:06` (TR) |
-| 📚 **Bu Oturumda İncelenen Makale** | `74` |
-| 📖 **Bu Oturumda Okunan Kitap (Tam Metin)** | `29` |
-| 📈 **Modelin Gördüğü Toplam Makale** | `1270` |
-| 📗 **Modelin Gördüğü Toplam Kitap** | `468` |
+| ⏱️ **Son Eğitim (Epoch)** | `02.08.2026 12:15:54` (TR) |
+| ⏳ **Tahmini Sonraki Çalışma** | `02.08.2026 12:45:54` (TR) |
+| 📚 **Bu Oturumda İncelenen Makale** | `82` |
+| 📖 **Bu Oturumda Okunan Kitap (Tam Metin)** | `28` |
+| 📈 **Modelin Gördüğü Toplam Makale** | `1352` |
+| 📗 **Modelin Gördüğü Toplam Kitap** | `496` |
 | 🧩 **Bağlam Derecesi (n-gram)** | `1..15 (backoff)` |
-| 🔍 **Soru-Cevap İndeksindeki Kelime** | `128418` |
-| 🗂️ **İndekslenen Gerçek Cümle** | `81436` |
-| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `23008592` |
-| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `18600533` |
-| ✅ **Öz-Test Sonucu** | `6/6` soru kaynaklı cevaplandı |
+| 🔍 **Soru-Cevap İndeksindeki Kelime** | `131749` |
+| 🗂️ **İndekslenen Gerçek Cümle** | `84769` |
+| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `23924717` |
+| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `19433389` |
+| ✅ **Öz-Test Sonucu** | `5/6` soru kaynaklı cevaplandı |
 
 ### 💬 Soru-Cevap Demosu (📚 Kaynaklı bilgi)
 *(Bu, modelin `beyin_meta.json` + parçalı veri dosyalarını kullanarak ürettiği gerçek bir örnektir.)*
 
-**Soru:** "Kırköy, Uğurludağ nedir?"
+**Soru:** "Marshall Boyaspor nedir?"
 
-> "Kırköy, çorum ilinin uğurludağ ilçesine bağlı bir köydür."
-> *Kaynak: Vikipedi: Kırköy, Uğurludağ*
+> "Marshall boyaspor, 1993 2000 yılları arasında kadın futbolunda faaliyet gösteren türk eski futbol kulübü."
+> *Kaynak: Vikipedi: Marshall Boyaspor*
 <!-- BİLGİ_BİTİŞ -->
