@@ -6,24 +6,24 @@ Bu depo, internetten makale çekerek kendi kendini eğiten otonom bir yapay zeka
 <!-- BİLGİ_BAŞLANGIÇ -->
 | Model Metriği | Değer |
 |:---|:---|
-| ⏱️ **Son Eğitim (Epoch)** | `03.08.2026 18:33:24` (TR) |
-| ⏳ **Tahmini Sonraki Çalışma** | `03.08.2026 19:03:24` (TR) |
-| 📚 **Bu Oturumda İncelenen Makale** | `81` |
-| 📖 **Bu Oturumda Okunan Kitap (Tam Metin)** | `30` |
-| 📈 **Modelin Gördüğü Toplam Makale** | `2725` |
-| 📗 **Modelin Gördüğü Toplam Kitap** | `1001` |
+| ⏱️ **Son Eğitim (Epoch)** | `03.08.2026 20:50:48` (TR) |
+| ⏳ **Tahmini Sonraki Çalışma** | `03.08.2026 21:20:48` (TR) |
+| 📚 **Bu Oturumda İncelenen Makale** | `83` |
+| 📖 **Bu Oturumda Okunan Kitap (Tam Metin)** | `28` |
+| 📈 **Modelin Gördüğü Toplam Makale** | `2808` |
+| 📗 **Modelin Gördüğü Toplam Kitap** | `1029` |
 | 🧩 **Bağlam Derecesi (n-gram)** | `1..15 (backoff)` |
-| 🔍 **Soru-Cevap İndeksindeki Kelime** | `174729` |
-| 🗂️ **İndekslenen Gerçek Cümle** | `169095` |
-| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `36950732` |
-| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `31146589` |
+| 🔍 **Soru-Cevap İndeksindeki Kelime** | `176365` |
+| 🗂️ **İndekslenen Gerçek Cümle** | `173099` |
+| 🔗 **Ağdaki Toplam Sinaps (Bağlantı)** | `37364343` |
+| 🧠 **Benzersiz Düğüm (Node) Sayısı** | `31517406` |
 | ✅ **Öz-Test Sonucu** | `6/6` soru kaynaklı cevaplandı |
 
 ### 💬 Soru-Cevap Demosu (📚 Kaynaklı bilgi)
 *(Bu, modelin `beyin_meta.json` + parçalı veri dosyalarını kullanarak ürettiği gerçek bir örnektir.)*
 
-**Soru:** "İsmail Demirci (oyuncu) nedir?"
+**Soru:** "Kalfalı, Salıpazarı nedir?"
 
-> "İsmail demirci d."
-> *Kaynak: Vikipedi: İsmail Demirci (oyuncu)*
+> "Kalfalı, samsun ilinin salıpazarı ilçesine bağlı bir mahalledir."
+> *Kaynak: Vikipedi: Kalfalı, Salıpazarı*
 <!-- BİLGİ_BİTİŞ -->
